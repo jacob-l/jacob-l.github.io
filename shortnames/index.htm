@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>OpenSilver Demo Short Names</title>
+    <base href="/shortnames/" />
+</head>
+<body>
+    <script>
+        function loadJs(url, disableAutostart, implementationCode, location){
+            //url is URL of external file, implementationCode is the code
+            //to be called from the file, location is the location to 
+            //insert the <script> element
+
+            var scriptTag = document.createElement('script');
+            scriptTag.src = url;
+            if (disableAutostart) {
+                scriptTag.setAttribute('autostart', 'false');
+            }
+
+            if (implementationCode) {
+                scriptTag.onload = implementationCode;
+                scriptTag.onreadystatechange = implementationCode;
+            }
+
+            location = location || document.body;
+            location.appendChild(scriptTag);
+        };
+        function loadCss(filename) {
+            var fileref = document.createElement("link");
+            fileref.rel = "stylesheet";
+            fileref.type = "text/css";
+            fileref.href = filename;
+            document.getElementsByTagName("head")[0].appendChild(fileref)
+        }
+        function startApp() {
+            console.log('Starting Application');
+
+            loadCss('loading-indicator.css');
+            loadJs('_framework/blazor.webassembly.js', true, function () {
+                loadJs('BlazorLoader.js');
+            });
+            loadJs('loading-indicator.js');
+            loadJs('libs/opensilver.js');
+        }
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+                .then(function (registration) {
+                    console.log('SERVICE WORKER HAS BEEN REGISTERED');
+                    
+                    if (registration.active) {
+                        startApp();
+                    } else if (registration.installing) {
+                        registration.installing.addEventListener('statechange', () => {
+                            if (registration.active && registration.active.state === 'activated') {
+                                startApp();
+                            }
+                        });
+                    }
+                });
+        }
+    </script>
+    <div id="app" style="position:absolute;width:100%;height:100%;left:0;top:0;"></div>
+    <div id="opensilver-root" style="position: relative; width: 100%; height: 100%; overflow-x: hidden; overflow-y: hidden"></div>
+</body>
+</html>
