@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "OpenSilverCodeGenerator.Browser",
   "resources": {
-    "hash": "sha256-PuyOEAcm4l3nST9JkZyBdQmvtEnr1BpVmhitbftGyIU=",
+    "hash": "sha256-59pHOFl0FcMs8HtrByf9iZim+07M2rozbD4TQ8TbYa8=",
     "jsModuleNative": {
       "dotnet.native.8.0.0.w7uhca9uap.js": "sha256-NIoQGhFWlBs0vpXWg89vroN7915Gs8gaUlJLq1kY74A="
     },
@@ -50,8 +50,8 @@
       "OpenSilver.Expression.Interactions.wasm": "sha256-e41TVyDjGzycpbV3ORqOh1bEvOLo437mb780w5+CJ3s=",
       "OpenSilver.Interactivity.wasm": "sha256-3i2X8TUEFTVQtoNmKmz557vyPzwnuUsYYs8x/nlANtE=",
       "OpenSilver.wasm": "sha256-/ZUjnMDbshnYVs7Nlnsc/IabqHEHjkJ8Lk28vE2i0sg=",
-      "OpenSilverCodeGenerator.Browser.wasm": "sha256-3RDexX/n1/+xbLmSVQp+SPD7nZk89zvDgTmSUV85qec=",
-      "OpenSilverCodeGenerator.wasm": "sha256-s5dae16+c40UmwPExSU4Z8dEMblZ5ph3u3qYtxus/F8=",
+      "OpenSilverCodeGenerator.Browser.wasm": "sha256-uSQbxME2ajhjclbKRwIKxc2AkGKpRVeAI12SSwMS1Gc=",
+      "OpenSilverCodeGenerator.wasm": "sha256-RYQjRSOE0F1X3ku58lzbLX1M+mk3kesgyRziwZo4hoM=",
       "System.Buffers.wasm": "sha256-9WX03H1kec0gbV/BF8MTx9efH9yhDE4Y42T6sWFoi4I=",
       "System.Collections.Concurrent.wasm": "sha256-jv2flJarVUQqUPOWcl0oGULCfbFo66JICQHs+yXsl4M=",
       "System.Collections.Immutable.wasm": "sha256-GZOZdMc8+sbl5Qio7Nu1tIUmaTGi3RJDY3ZAHpDeGlo=",
