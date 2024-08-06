@@ -1,7 +1,7 @@
 {
-  "entryAssembly": "OpenSilverXamlIO.Browser",
+  "entryAssembly": "OpenSilverBrowserCompilation.Browser",
   "resources": {
-    "hash": "sha256-Rn/FAea8BmmUUtw57RRoZ1cur6SSlNYktfABMCTWaTk=",
+    "hash": "sha256-qhyMJLwhtnzVvs8A6mvnAyiKjLab4HwgbtEK2zziUdk=",
     "runtime": {
       "dotnet.7.0.20.hqs5bjbv9e.js": "sha256-eaJTmow4t8eE7FZMZR5Ja41JMOefGCbIYDTdpclGsac=",
       "dotnet.timezones.blat": "sha256-gbATD5HDsHYtW8vdPYh9iSBY4O5CjvMeCSF5xXWF1xo=",
@@ -65,8 +65,8 @@
       "OpenSilver.Expression.Effects.dll": "sha256-ljWi3A5qRQn9iTBTs2u4j9EccB9DjdNjcH80AqnVWKc=",
       "OpenSilver.Expression.Interactions.dll": "sha256-3HCxoafOTXaI8pWJXZmqWe28edzBoDqofHTVuSp0HEE=",
       "OpenSilver.Interactivity.dll": "sha256-nmsAlEc5BguWvBRNyya6dQljb2UtiS1DoB/AyjNdTCU=",
-      "OpenSilverXamlIO.Browser.dll": "sha256-D2JOIVxr0caoyxe8G8cGZNOG5pKTFU98EHNGjC8krV0=",
-      "OpenSilverXamlIO.dll": "sha256-cCJHRzJWK34+24s9d7ey0S1YyPhOgx2lcLAv9NXgpwc=",
+      "OpenSilverBrowserCompilation.Browser.dll": "sha256-h4HzMklEvAbc1lcsugBUHisqgO37QSLv7zI3PhWxNdU=",
+      "OpenSilverBrowserCompilation.dll": "sha256-RdctROwv0UglvmYr/j3c2tP4e5vT79+gq2rCgH1Pks4=",
       "System.AppContext.dll": "sha256-JFO02rfRw0pjNdvqEZbp/c0MLIUFcXU6Jk+w9vzm8MY=",
       "System.Buffers.dll": "sha256-rqIk4j+sDEfWgRYhol/95+kQTqiM475qEG9RWB3SXR4=",
       "System.Collections.Concurrent.dll": "sha256-9vF9ZRDRzzTuN9j9F0qC9TstLRqi0FDq0LFh+haZedU=",
