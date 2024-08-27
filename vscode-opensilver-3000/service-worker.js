@@ -1,5 +1,3 @@
-// service-worker.js
-
 let idCounter = 0;
 const promiseStorage = {};
 
@@ -10,25 +8,27 @@ addEventListener("message", (e) => {
     if (!data) {
         return;
     }
-    if (data.messageType === 'file-response') {
+    if (data.command === 'file-response') {
         const headers = new Headers({
             'Content-Type': data.contentType
         });
 
         // Resolve the promise with the generated response
-        promiseStorage[data.requestId].resolve(new Response(data.content, { headers: headers }));
+        promiseStorage[data.requestId].resolve(new Response(data.content, {
+            headers: headers,
+            status: data.status || 200
+        }));
     }
 });
 
 // Your custom fetch logic function
 async function customFetchLogic(event) {
     const request = event.request;
-    if (request.url.endsWith('/vscode-opensilver-3000/') ||
-        request.url.endsWith('/vscode-opensilver-3000') ||
-        request.url.endsWith('/app.js') ||
-        request.url.endsWith('/service-worker.js') ||
-        request.url.endsWith('/favicon.ico')) {
+    const url = new URL(request.url);
+    const basePath = self.location.pathname.substring(0, self.location.pathname.lastIndexOf('/') + 1);
+    if (!request.url.startsWith(self.location.origin) || url.pathname === basePath) {
         try {
+            console.log('Direct request', request);
             const response = await fetch(request);
             return response;
         } catch (error) {
@@ -37,7 +37,6 @@ async function customFetchLogic(event) {
         }
     }
 
-    //console.log('[Service Worker] Custom logic for:', request.url);
     const id = (idCounter++).toString();
 
     const promise = new Promise((resolve, reject) => {
@@ -45,7 +44,7 @@ async function customFetchLogic(event) {
     });
 
     const msg = {
-        messageType: 'load-file',
+        command: 'load-file',
         requestId: id,
         url: request.url
     };
@@ -53,12 +52,7 @@ async function customFetchLogic(event) {
     return promise;
 }
 
-self.addEventListener('install', (event) => {
-    console.log('[Service Worker] Installing Service Worker ...', event);
-});
-
 self.addEventListener('activate', (event) => {
-    console.log('[Service Worker] Activating Service Worker ...', event);
     return self.clients.claim();
 });
 

@@ -5,19 +5,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>AnAppInOpenSilver</title>
     <base href="/vscode-opensilver-3000/" />
-    <script src="app.js"></script>
 </head>
 <body>
     <div id="opensilver-root" style="position: relative; width: 100%; height: 100%; overflow-x: hidden; overflow-y: hidden"></div>
 
     <script type="text/javascript">
-        setTimeout(function () {
-            const script = document.createElement('script');
-            script.setAttribute('type', 'application/javascript');
-            script.setAttribute('async', 'async');
-            script.setAttribute('src', 'libs/opensilver.js?date=' + new Date().toISOString());
-            document.head.appendChild(script);
-        }, 100);
+        const channel = new BroadcastChannel('sw-messages');
+        channel.addEventListener('message', e => {
+            const data = e.data;
+            if (!data) {
+                return;
+            }
+            window.parent.postMessage(data, '*');
+        });
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js')
+                .then((registration) => {
+                    if (registration.installing) {
+                        const sw = registration.installing || registration.waiting;
+                        sw.onstatechange = function() {
+                            if (sw.state === 'installed') {
+                                // SW installed.  Refresh page so SW can respond with SW-enabled page.
+                                window.location.reload();
+                            }
+                        };
+                    }
+                })
+                .catch((error) => {
+                    console.error('Service Worker registration failed:', error);
+                });
+            });
+        } else {
+            console.log('Service Worker not supported in this browser.');
+        }
+
+        window.addEventListener('message', (e) =>
+        {
+            const data = e.data;
+            if (!data) {
+                return;
+            }
+            if (data.command === 'file-response') {
+                navigator.serviceWorker.ready.then((registration) => {
+                    registration.active.postMessage(data);
+                });
+                return;
+            }
+        });
+
+        function removeServiceWorker() {
+            if(window.navigator && navigator.serviceWorker) {
+                navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                    for(let registration of registrations) {
+                        console.log('Unregistering resgistration');
+                        registration.unregister();
+                    }
+                });
+            }
+        }
+
+        const script = document.createElement('script');
+        script.setAttribute('type', 'application/javascript');
+        script.setAttribute('async', 'async');
+        script.setAttribute('src', 'libs/opensilver.js?date=' + new Date().toISOString());
+        document.head.appendChild(script);
     </script>
 </body>
 </html>
