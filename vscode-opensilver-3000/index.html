@@ -19,28 +19,6 @@
             window.parent.postMessage(data, '*');
         });
 
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('service-worker.js')
-                .then((registration) => {
-                    if (registration.installing) {
-                        const sw = registration.installing || registration.waiting;
-                        sw.onstatechange = function() {
-                            if (sw.state === 'installed') {
-                                // SW installed.  Refresh page so SW can respond with SW-enabled page.
-                                window.location.reload();
-                            }
-                        };
-                    }
-                })
-                .catch((error) => {
-                    console.error('Service Worker registration failed:', error);
-                });
-            });
-        } else {
-            console.log('Service Worker not supported in this browser.');
-        }
-
         window.addEventListener('message', (e) =>
         {
             const data = e.data;
@@ -55,6 +33,45 @@
             }
         });
 
+        function loadOpenSilver() {
+            const script = document.createElement('script');
+            script.setAttribute('type', 'application/javascript');
+            script.setAttribute('async', 'async');
+            script.setAttribute('src', 'libs/opensilver.js?date=' + new Date().toISOString());
+            document.head.appendChild(script);
+        }
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js')
+                .then((registration) => {
+                    if (registration.installing || registration.waiting) {
+                        const sw = registration.installing || registration.waiting;
+                        sw.onstatechange = function() {
+                            if (sw.state === 'installed' || sw.state === 'activated') {
+                                // Wait for service worker to be activated before making the request
+                                if (navigator.serviceWorker.controller) {
+                                    loadOpenSilver();  // Make your request after SW is active
+                                } else {
+                                    navigator.serviceWorker.addEventListener('controllerchange', () => {
+                                        loadOpenSilver();  // SW has taken control, make your request now
+                                    });
+                                }
+                            }
+                        };
+                    } else if (registration.active) {
+                        // Service worker is already active and controlling the page
+                        loadOpenSilver();
+                    }
+                })
+                .catch((error) => {
+                    console.error('Service Worker registration failed:', error);
+                });
+            });
+        } else {
+            console.log('Service Worker not supported in this browser.');
+        }
+
         function removeServiceWorker() {
             if(window.navigator && navigator.serviceWorker) {
                 navigator.serviceWorker.getRegistrations().then(function(registrations) {
@@ -65,12 +82,6 @@
                 });
             }
         }
-
-        const script = document.createElement('script');
-        script.setAttribute('type', 'application/javascript');
-        script.setAttribute('async', 'async');
-        script.setAttribute('src', 'libs/opensilver.js?date=' + new Date().toISOString());
-        document.head.appendChild(script);
     </script>
 </body>
 </html>

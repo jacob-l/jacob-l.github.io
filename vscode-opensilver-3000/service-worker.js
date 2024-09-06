@@ -18,6 +18,7 @@ addEventListener("message", (e) => {
             headers: headers,
             status: data.status || 200
         }));
+        delete promiseStorage[data.requestId];
     }
 });
 
