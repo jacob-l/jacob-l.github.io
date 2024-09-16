@@ -48,7 +48,7 @@
                     if (registration.installing || registration.waiting) {
                         const sw = registration.installing || registration.waiting;
                         sw.onstatechange = function() {
-                            if (sw.state === 'installed' || sw.state === 'activated') {
+                            if (sw.state === 'activated') {
                                 // Wait for service worker to be activated before making the request
                                 if (navigator.serviceWorker.controller) {
                                     loadOpenSilver();  // Make your request after SW is active

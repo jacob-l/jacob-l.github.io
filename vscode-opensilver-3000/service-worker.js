@@ -27,9 +27,9 @@ async function customFetchLogic(event) {
     const request = event.request;
     const url = new URL(request.url);
     const basePath = self.location.pathname.substring(0, self.location.pathname.lastIndexOf('/') + 1);
-    if (!request.url.startsWith(self.location.origin) || url.pathname === basePath) {
+    if (!request.url.startsWith(self.location.origin) ||
+        url.pathname === basePath || url.pathname === `${basePath}index.html`) {
         try {
-            console.log('Direct request', request);
             const response = await fetch(request);
             return response;
         } catch (error) {
@@ -37,7 +37,6 @@ async function customFetchLogic(event) {
             throw error;
         }
     }
-
     const id = (idCounter++).toString();
 
     const promise = new Promise((resolve, reject) => {
