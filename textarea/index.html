@@ -26,14 +26,29 @@
     const textArea = document.getElementById('myTextArea');
     const outputDiv = document.getElementById('output');
 
+    function getReadableTarget(target) {
+        if (target.nodeName) {
+            return target.nodeName;
+        }
+        if (target === window) {
+            return "window";
+        }
+        if (target.constructor && target.constructor.name) {
+            return target.constructor.name;
+        }
+        return String(target);
+   }
+
     function printEvent(event) {
       const p = document.createElement('p');
-      p.textContent = `Event fired: ${event.type}`;
+      p.textContent = `Event fired: ${event.type} ${getReadableTarget(event.target)}`;
       outputDiv.appendChild(p);
     }
 
     textArea.addEventListener('blur', printEvent);
     textArea.addEventListener('focusout', printEvent);
+
+    window.addEventListener('blur', printEvent);
   </script>
 </body>
 </html>
