@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Textarea Event Example</title>
+  <style>
+    textarea {
+      width: 300px;
+      height: 100px;
+    }
+    #output {
+      margin-top: 10px;
+      font-family: sans-serif;
+      color: #333;
+    }
+    #output p {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <textarea id="myTextArea" placeholder="Type here..."></textarea>
+  <div id="output"></div>
+
+  <script>
+    const textArea = document.getElementById('myTextArea');
+    const outputDiv = document.getElementById('output');
+
+    function printEvent(event) {
+      const p = document.createElement('p');
+      p.textContent = `Event fired: ${event.type}`;
+      outputDiv.appendChild(p);
+    }
+
+    textArea.addEventListener('blur', printEvent);
+    textArea.addEventListener('focusout', printEvent);
+  </script>
+</body>
+</html>
