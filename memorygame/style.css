@@ -1,0 +1,69 @@
+body {
+    background: #222;
+    color: #fff;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(4, 100px);
+    grid-gap: 20px;
+    perspective: 1000px;
+}
+
+.card {
+    width: 100px;
+    height: 140px;
+    background: linear-gradient(135deg, #4e54c8, #8f94fb);
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(.68,-0.55,.27,1.55), box-shadow 0.3s;
+    position: relative;
+    user-select: none;
+}
+
+.card.flipped {
+    background: #fff;
+    color: #4e54c8;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+
+.card.animate-left, .card.animate-right {
+    z-index: 10;
+    position: fixed;
+    top: 50%;
+    transition: transform 0.7s cubic-bezier(.68,-0.55,.27,1.55), box-shadow 0.7s;
+    box-shadow: 0 12px 48px 0 rgba(0,0,0,0.7);
+}
+
+.card.animate-left {
+    left: 8vw;
+    right: auto;
+    animation: pulse-left 0.7s alternate infinite cubic-bezier(.68,-0.55,.27,1.55);
+}
+
+.card.animate-right {
+    right: 8vw;
+    left: auto;
+    animation: pulse-right 0.7s alternate infinite cubic-bezier(.68,-0.55,.27,1.55);
+}
+
+@keyframes pulse-left {
+    0% { box-shadow: 0 12px 48px 0 rgba(78,84,200,0.7); }
+    100% { box-shadow: 0 24px 64px 0 rgba(143,148,251,0.9); }
+}
+
+@keyframes pulse-right {
+    0% { box-shadow: 0 12px 48px 0 rgba(143,148,251,0.7); }
+    100% { box-shadow: 0 24px 64px 0 rgba(78,84,200,0.9); }
+}
